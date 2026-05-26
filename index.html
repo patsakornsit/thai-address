@@ -153,18 +153,17 @@ function submitForm() {
   formData.append("postcode", post);
 
   fetch("https://script.google.com/macros/s/AKfycbxz-LgkbJ8FF-Wle8FOqQKG4jH9U1QCzf5H3oCvTtg-YtTUljBuMKXFwUzcT_9KnoUQ/exec", {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.text())
-  .then(data => {
-    console.log("ส่งสำเร็จ:", data);
-    alert("บันทึกข้อมูลเรียบร้อย ✅");
-  })
-  .catch(err => {
-    console.error(err);
-    alert("ส่งข้อมูลไม่สำเร็จ ❌");
-  });
+  method: "POST",
+  body: formData,
+  mode: "no-cors"
+ })
+.then(() => {
+  alert("บันทึกข้อมูลเรียบร้อย ✅");
+ })
+.catch(err => {
+  console.error(err);
+  alert("ส่งข้อมูลไม่สำเร็จ ❌");
+ });
 }
 </script>
 </body>
