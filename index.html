@@ -122,22 +122,49 @@ function onDistrictChange() {
 }
 
 function submitForm() {
-  const name    = document.getElementById('name').value.trim();
-  const prov    = provSel.value;
-  const dist    = distSel.value;
-  const tam     = tamSel.value;
-  const addr    = document.getElementById('address').value.trim();
-  const post    = document.getElementById('postcode').value.trim();
+  const name = document.getElementById('name').value.trim();
+  const prov = provSel.value;
+  const dist = distSel.value;
+  const tam  = tamSel.value;
+  const addr = document.getElementById('address').value.trim();
+  const post = document.getElementById('postcode').value.trim();
+
   if (!name || !prov || !dist || !tam) {
     alert('กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน (ชื่อ, จังหวัด, อำเภอ, ตำบล)');
     return;
   }
+
+  // แสดงผลเดิม
   let text = name + '\n';
   if (addr) text += addr + ' ';
   text += tam + ' ' + dist + ' ' + prov;
   if (post) text += ' ' + post;
+
   document.getElementById('result-text').textContent = text;
   document.getElementById('result').style.display = 'block';
+
+ 
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("province", prov);
+  formData.append("district", dist);
+  formData.append("subdistrict", tam);
+  formData.append("address", addr);
+  formData.append("postcode", post);
+
+  fetch("https://script.google.com/macros/s/AKfycbxz-LgkbJ8FF-Wle8FOqQKG4jH9U1QCzf5H3oCvTtg-YtTUljBuMKXFwUzcT_9KnoUQ/exec", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.text())
+  .then(data => {
+    console.log("ส่งสำเร็จ:", data);
+    alert("บันทึกข้อมูลเรียบร้อย ✅");
+  })
+  .catch(err => {
+    console.error(err);
+    alert("ส่งข้อมูลไม่สำเร็จ ❌");
+  });
 }
 </script>
 </body>
